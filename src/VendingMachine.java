@@ -27,13 +27,12 @@ public class VendingMachine {
   private VendingMachine() {}
   
   private void init() {   
-    replenishTimer.schedule(new Runnable() {
+    replenishTimer.scheduleAtFixedRate(new Runnable() {
       public void run() { 
+    	System.out.println("---REPLENISH---");
         replenish();
-        if (keepRunning.get()) replenishTimer.schedule(
-          this, 3, TimeUnit.SECONDS);
       }
-    }, 1, TimeUnit.SECONDS);
+    },3L, 3L, TimeUnit.SECONDS);
   }
   
   public static VendingMachine create() {
@@ -42,7 +41,10 @@ public class VendingMachine {
     return energySource;
   }
 
-  public void stopEnergySource() { keepRunning.swap(false); }
+  public void stopEnergySource() {
+	  keepRunning.swap(false); 
+	  replenishTimer.shutdown();
+  }
 
   public long getCookiesAvailable() { return curCookies.get(); }
   public long getCandyAvailable() { return curCandy.get(); }

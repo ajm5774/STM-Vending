@@ -1,7 +1,7 @@
 
 public class CookieMonster implements User, Runnable{
 	private static VendingMachine vendingMachine;
-	private final String name = "Cookie Monster";
+	private final String name = "\tCookie Monster";
 	
 	public CookieMonster(VendingMachine vendingMachine){
 		this.vendingMachine = vendingMachine;

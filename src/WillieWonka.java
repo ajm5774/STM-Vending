@@ -1,7 +1,7 @@
 
 public class WillieWonka implements User, Runnable{
 	private static VendingMachine vendingMachine;
-	private final String name = "Willie Wonka";
+	private final String name = "\t\tWillie Wonka";
 	
 	public WillieWonka(VendingMachine vendingMachine){
 		this.vendingMachine = vendingMachine;

@@ -1,7 +1,7 @@
 
 public class FatAlbert  implements User, Runnable{
 	private static VendingMachine vendingMachine;
-	private final String name = "Fat Albert";
+	private final String name = "\t\t\tFat Albert";
 	
 	public FatAlbert(VendingMachine vendingMachine){
 		this.vendingMachine = vendingMachine;

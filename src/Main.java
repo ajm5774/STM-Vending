@@ -55,28 +55,29 @@ public class Main {
 	  //schedule tasks
 	  for(int j = 0; j < numDays; j++){
 		//----create cookie monsters tasks
-	    for(int i =0; i < COOKIEMONSTER;i++){
+	    for(int i = 0; i < COOKIEMONSTER;i++){
 	    	Runnable task = new CookieMonster(vendingMachine);
-	        long delay = (long)numDays + (i/COOKIEMONSTER);
-	    	service.schedule(task, delay, TimeUnit.SECONDS);
+	        long delay = (long)(j*1000 + ((i*1000.0)/COOKIEMONSTER));
+	    	service.schedule(task, delay, TimeUnit.MILLISECONDS);
 	    }
 	    
 	    //----create willie wonkas tasks
 	    for(int i =0; i < WILLIEWONKA;i++){
 	    	Runnable task = new WillieWonka(vendingMachine);
 	        
-	        long delay = (long)numDays + (i/WILLIEWONKA);
-	    	service.schedule(task, delay, TimeUnit.SECONDS);
+	        long delay = (long)(j*1000 + ((i*1000.0)/WILLIEWONKA));
+	    	service.schedule(task, delay, TimeUnit.MILLISECONDS);
 	    }
 	    
 	    //----create fat alberts tasks
-	    int FATALBERT = new Random().nextInt(FATALBERTHIGH - FATALBERTLOW) 
+	    	//high number is exclusive, must add 1
+	    int FATALBERT = new Random().nextInt(FATALBERTHIGH - FATALBERTLOW + 1)
 	    		+ FATALBERTLOW;//FATALBERTLOW - FATALBERTHIGH
-	    for(int i =0; i < FATALBERT;i++){
+	    for(int i = 0; i < FATALBERT;i++){
 	    	Runnable task = new FatAlbert(vendingMachine);
 	    	
-	        long delay = (long)numDays + (i/FATALBERT);
-	    	service.schedule(task, delay, TimeUnit.SECONDS);
+	        long delay = (long)(j*1000 + ((i*1000.0)/FATALBERT));
+	    	service.schedule(task, delay, TimeUnit.MILLISECONDS);
 	     }
 	  }//end for loops
 	  
