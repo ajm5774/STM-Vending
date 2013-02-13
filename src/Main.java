@@ -19,38 +19,43 @@ public class Main {
   private static final int FATALBERTLOW = 2;
   private static final int FATALBERTHIGH = 4;
   
-  //number of days in simulation
+  //number of days in simulation (half a month)
   private static final int numDays = 15;
   
+  
+  /*
+   * main starts the program, schedules tasks, and shuts down
+   */
   public static void main(final String[] args)
     throws InterruptedException, ExecutionException {
 	long numCookies = vendingMachine.getCookiesAvailable();
 	long numCandy =  vendingMachine.getCandyAvailable();
 	
+	//print starting state of the vending machine for convenience
     System.out.println("Vending Machine has " + numCookies + " cookies and "
     		+ numCandy + " candy at first");
-
+    
+    //schedule tasks with users
     ScheduledThreadPoolExecutor service = scheduleTasks(numDays);
     
-    Thread.sleep((numDays + 1)*1000);
-    numCookies = vendingMachine.getCookiesAvailable();
-	numCandy =  vendingMachine.getCandyAvailable();
-	
-    System.out.println("Vending Machine has " + numCookies + " cookies and "
-    		+ numCandy + " candy in the end");
+    //sleep for the number of days before shutting down
+    Thread.sleep((numDays)*1000);
         
     vendingMachine.stopEnergySource();
     service.shutdown();
   }
   
-  //schedule tasks for the daily customers
+  
+  /*
+   * schedule tasks for the daily customers
+   */
   private static ScheduledThreadPoolExecutor scheduleTasks(int numDays){
 	  //total number of tasks
 	  int total = COOKIEMONSTER + WILLIEWONKA + FATALBERTHIGH;
 	  
-	  //create scheduler service
+	  //create scheduler service with a maximum pool of the maximum # tasks
 	  final ScheduledThreadPoolExecutor service =
-				new ScheduledThreadPoolExecutor(FATALBERTHIGH * numDays);
+				new ScheduledThreadPoolExecutor(total * numDays);
 	  
 	  //schedule tasks
 	  for(int j = 0; j < numDays; j++){

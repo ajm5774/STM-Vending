@@ -15,17 +15,22 @@ import java.util.concurrent.TimeUnit;
 
 
 public class VendingMachine {
+  
+  //instance variables
   private final long MAXCOOKIES = 6;
   private final long MAXCANDY = 6;
+  
   final Ref<Long> curCookies = new Ref<Long>(MAXCOOKIES);
   final Ref<Long> curCandy = new Ref<Long>(MAXCANDY);
+  
   final Ref<Boolean> keepRunning = new Ref<Boolean>(true);
+  
   private static final ScheduledExecutorService replenishTimer =
     Executors.newScheduledThreadPool(10);
-
-
-  private VendingMachine() {}
   
+  /*
+   * Starts the replenish timer
+   */
   private void init() {   
     replenishTimer.scheduleAtFixedRate(new Runnable() {
       public void run() { 
@@ -35,20 +40,36 @@ public class VendingMachine {
     },3L, 3L, TimeUnit.SECONDS);
   }
   
+  /*
+   * Creates the vending machine and calls init
+   */
   public static VendingMachine create() {
     final VendingMachine energySource = new VendingMachine();
     energySource.init();
     return energySource;
   }
 
+  /*
+   * Shuts down the executor service for replenishing items
+   */
   public void stopEnergySource() {
 	  keepRunning.swap(false); 
 	  replenishTimer.shutdown();
   }
-
+  
+  /*
+   * Returns the current number of cookies available
+   */
   public long getCookiesAvailable() { return curCookies.get(); }
+  
+  /*
+   * Returns the current number of candy available
+   */
   public long getCandyAvailable() { return curCandy.get(); }
 
+  /*
+   * Attempts for a user to get a cookie from the vending machine
+   */
   public boolean useCookie(final long units, final String name) {
     return  new Atomic<Boolean>() {
       public Boolean atomically() {
@@ -65,6 +86,9 @@ public class VendingMachine {
     }.execute();
   }
   
+  /*
+   * Attempts for a user to get a candy from the vending machine
+   */
   public boolean useCandy(final long units, final String name) {
 	    return  new Atomic<Boolean>() {
 	      public Boolean atomically() {
@@ -81,6 +105,10 @@ public class VendingMachine {
 	    }.execute();
 	  }
 
+  /*
+   * Refills the vending machien so there are MAXCOOKIES cookies and MAXCANDY 
+   * candies.
+   */
   private void replenish() {
     new Atomic() {
       public Object atomically() {
