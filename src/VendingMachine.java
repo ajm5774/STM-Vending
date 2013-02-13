@@ -12,6 +12,8 @@ import akka.stm.Atomic;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+
 public class VendingMachine {
   private final long MAXCOOKIES = 6;
   private final long MAXCANDY = 6;
@@ -45,10 +47,12 @@ public class VendingMachine {
   public long getCookiesAvailable() { return curCookies.get(); }
   public long getCandyAvailable() { return curCandy.get(); }
 
-  public boolean useCookie(final long units) {
+  public boolean useCookie(final long units, final String name) {
     return  new Atomic<Boolean>() {
       public Boolean atomically() {
         long currentLevel = curCookies.get();
+        System.out.println(name + " tries too get a " + 
+      			"Cookie. Cookie level:" + currentLevel);
         if(units > 0 && currentLevel >= units) {
           curCookies.swap(currentLevel - units);
           return true;          
@@ -59,10 +63,12 @@ public class VendingMachine {
     }.execute();
   }
   
-  public boolean useCandy(final long units) {
+  public boolean useCandy(final long units, final String name) {
 	    return  new Atomic<Boolean>() {
 	      public Boolean atomically() {
 	        long currentLevel = curCandy.get();
+	        System.out.println(name + " tries too get a " + 
+	      			"candy. Candy level:" + currentLevel);
 	        if(units > 0 && currentLevel >= units) {
 	          curCandy.swap(currentLevel - units);
 	          return true;          
