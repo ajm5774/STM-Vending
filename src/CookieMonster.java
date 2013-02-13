@@ -1,5 +1,5 @@
 
-public class CookieMonster implements User, Runnable{
+public class CookieMonster implements Runnable{
 	private static VendingMachine vendingMachine;
 	private final String name = "\tCookie Monster";
 	

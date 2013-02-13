@@ -1,5 +1,5 @@
 
-public class FatAlbert  implements User, Runnable{
+public class FatAlbert  implements Runnable{
 	private static VendingMachine vendingMachine;
 	private final String name = "\t\t\tFat Albert";
 	

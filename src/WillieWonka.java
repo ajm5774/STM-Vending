@@ -1,5 +1,5 @@
 
-public class WillieWonka implements User, Runnable{
+public class WillieWonka implements Runnable{
 	private static VendingMachine vendingMachine;
 	private final String name = "\t\tWillie Wonka";
 	
